@@ -1,0 +1,152 @@
+{% extends '../../layouts/index.html' %} {% block title %}图书列表111{% endblock %}
+{% block head %}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<title>图书列表</title>
+<!-- injectcss -->
+<style>
+  .h2-title{
+    text-align: center;
+  }
+  .list-box{
+    width: 800px;
+    box-sizing: border-box;
+    padding: 15px;
+    border: 1px solid #969696;
+    font-size: 14px;
+  }
+  .list-item{
+    display: flex;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+  }
+  .item-title{
+    flex: 2;
+    text-align: center;
+  }
+  .item-desc{
+    flex: 4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .item-time{
+    flex: 1;
+  }
+  .item-operation{
+    flex: 2;
+  }
+  .btn-opt{
+    height: 25px;
+    line-height: 25px;
+    margin-right: 10px;
+    /* text-align: center; */
+  }
+  .btn-add{
+    width: 150px;
+    height: 40px;
+    margin-left: 300px;
+    margin-top: 50px;
+  }
+  </style>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+<script
+  typet="text/javascript"
+  src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"
+></script>
+{% endblock %} 
+{% block content %}
+    <div id="app">
+      <!-- <input type="text" v-model="message" />
+      <p>{{ message }}</p> -->
+      <!-- <p>{{ bookList }}</p> -->
+      <h2 class="h2-title">图书列表</h2>
+      <div class="list-box">
+        <div class="list-item" v-for="(item, index) in bookList" :key="index">
+            <div class="item-title">
+                {{item.title}}
+            </div>
+            <div class="item-desc">
+                {{item.description}}
+            </div>
+            <div class="item-time">
+                {{item.createTime}}
+            </div>
+            <div class="item-operation">
+                <button class="btn-opt" @click="gotoBookDetail(item)">查看详情</button>
+                <button class="btn-opt" @click="deleteBook(item,index)">删除</button>
+            </div>
+        </div>
+      </div>
+      <button class="btn-add" @click="addBook(item)">添加图书</button>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script typet="text/javascript">
+      var app = new Vue({
+        el: "#app",
+        data: {
+          message: "Hello Vue!",
+          // 图书列表
+          bookList: []
+        },
+        mounted() {
+          this.getBookList();
+        },
+        methods: {
+          getBookList() {
+            const _this=this
+            $.ajax({
+              url: "/api/bookList",
+              type: "get",
+              dataType: "json",
+              success: function(res) {
+                // $("#div1").html(res);
+                console.log(res);
+                if (res.code === 0 && res.data) {
+                  _this.bookList = res.data;
+                }
+              },
+              error: function(xhr, status, error) {
+                // $("#div1").html(result);
+                console.log(error);
+              }
+            });
+          },
+          deleteBook(item,index) {
+            const _this=this
+            const data = JSON.stringify({
+              id: item.id
+            });
+            $.ajax({
+              url: "/api/bookDelete",
+              data,
+              type: "POST",
+              contentType: "application/json",
+              dataType: "json",
+              success: function(result) {
+                // $("#div1").html(result);
+                console.log(result);
+                _this.bookList.splice(index,1)
+              },
+              error: function(xhr, status, error) {
+                // $("#div1").html(result);
+                console.log(error);
+              }
+            });
+          },
+          gotoBookDetail(item){
+            window.location.href =`/books/detail?id=${item.id}`
+          },
+          addBook(){
+            window.location.href ="/books/add"
+          }
+        }
+      });
+    </script>
+<!-- injectjs -->
+{% endblock %}

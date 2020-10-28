@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>图书列表</title>
+    <style>
+      .h2-title {
+        text-align: center;
+      }
+      .list-box {
+        width: 800px;
+        box-sizing: border-box;
+        padding: 15px;
+        border: 1px solid #969696;
+        font-size: 14px;
+      }
+      .list-item {
+        display: flex;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+      }
+      .item-title {
+        flex: 2;
+        text-align: center;
+      }
+      .item-desc {
+        flex: 4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .item-time {
+        flex: 1;
+      }
+      .item-operation {
+        flex: 2;
+      }
+      .btn-opt {
+        height: 25px;
+        line-height: 25px;
+        margin-right: 10px;
+        /* text-align: center; */
+      }
+      .btn-add {
+        width: 150px;
+        height: 40px;
+        margin-left: 300px;
+        margin-top: 50px;
+      }
+    </style>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <script
+      typet="text/javascript"
+      src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"
+    ></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- <input type="text" v-model="message" />
+      <p>{{ message }}</p> -->
+      <!-- <p>{{ bookList }}</p> -->
+      <h2 class="h2-title">图书列表</h2>
+      <div class="list-box">
+        {% for item in bookList -%}
+        <div class="list-item">
+          <div class="item-title">
+            [[item.title]]
+          </div>
+          <div class="item-desc">
+            [[item.description]]
+          </div>
+          <div class="item-time">
+            [[item.createTime]]
+          </div>
+          <div class="item-operation">
+            <button
+              class="btn-opt"
+              id="btn-detail"
+              onclick="gotoBookDetail('[[item.id]]')"
+            >
+              查看详情
+            </button>
+            <button class="btn-opt" onclick="deleteBook('[[item.id]]')">删除</button>
+          </div>
+        </div>
+        {%- endfor %}
+      </div>
+      <button class="btn-add" onclick="addBook()">添加图书</button>
+    </div>
+    <script typet="text/javascript">
+      $(document).ready(function() {
+        // $("#btn-detail").click(function() {
+        //   $(this).hide();
+        // });
+      });
+      function deleteBook(id) {
+        const data = JSON.stringify({
+          id,
+        });
+        $.ajax({
+          url: "delete.php",
+          data,
+          type: "POST",
+          contentType: "application/json",
+          dataType: "json",
+          success: function(result) {
+            // $("#div1").html(result);
+            console.log(result);
+          },
+          error: function(xhr, status, error) {
+            // $("#div1").html(result);
+            console.log(error);
+          }
+        });
+      }
+      function gotoBookDetail(id) {
+        window.location.href = `/ydbooks/bookDetail.html?id=${id}`;
+      }
+      function addBook() {
+        window.location.href = "/ydbooks/bookAdd.html";
+      }
+    </script>
+  </body>
+</html>

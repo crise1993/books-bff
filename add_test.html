@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>添加图书</title>
+    <script
+      typet="text/javascript"
+      src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"
+    ></script>
+  </head>
+  <body>
+    <!-- <form action=""></form> -->
+    <p>
+      <label for="name">新闻标题</label>
+      <input type="text" name="name" id="name"/>
+    </p>
+    <p>
+      <label for="desc">新闻内容</label>
+      <input type="text" name="desc" id="desc"/>
+    </p>
+    <!-- <p>
+        <label for="name">新闻标题</label>
+        <input type="text" name="name">
+    </p>
+    <p>
+        <label for="name">新闻标题</label>
+        <input type="text" name="name">
+    </p>
+    <p>
+        <label for="name">新闻标题</label>
+        <input type="text" name="name">
+    </p> -->
+    <input type="button" id="btn" value="提交" />
+    <script typet="text/javascript">
+      $("#btn").click(function() {
+        $.ajax({
+          url: "add.php",
+          data: {
+              name: $('#name').val(),
+              desc: $('#desc').val(),
+          },
+        //   type: 'POST',
+          type: 'GET',
+          dataType: "json",
+          success: function(result) {
+            // $("#div1").html(result);
+            console.log(result);
+          },
+          error: function(xhr,status,error) {
+            // $("#div1").html(result);
+            console.log(error);
+          },
+          
+        });
+      });
+    </script>
+  </body>
+</html>

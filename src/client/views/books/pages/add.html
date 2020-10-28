@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>添加图书</title>
+    <style>
+      .h2-title {
+        margin-left: 350px;
+      }
+      .detail-box {
+        width: 800px;
+        box-sizing: border-box;
+        padding: 20px;
+        border: 1px solid #969696;
+        font-size: 14px;
+      }
+      .line-common {
+        height: 50px;
+        line-height: 50px;
+      }
+      .detail-desc label {
+        vertical-align: top;
+      }
+      .item-desc {
+        flex: 4;
+      }
+      .item-time {
+        flex: 1;
+      }
+
+      .btn-modified {
+        width: 150px;
+        height: 40px;
+        margin-left: 300px;
+        margin-top: 50px;
+      }
+    </style>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <script
+      typet="text/javascript"
+      src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"
+    ></script>
+  </head>
+  <body>
+    <div id="app">
+      <h2 class="h2-title">图书管理</h2>
+      <div class="detail-box">
+        <p class="detail-title line-common">
+          <label for="title">图书标题：</label>
+          <input type="text" name="title" v-model="formInfo.title" />
+        </p>
+        <p class="detail-desc">
+          <label for="desc">图书内容：</label>
+          <textarea
+            rows="10"
+            cols="30"
+            name="desc"
+            v-model="formInfo.description"
+          >
+          </textarea>
+        </p>
+        <p class="detail-time line-common">
+          <label for="desc">创建时间：</label>
+          <input type="date" name="date" v-model="formInfo.createTime" />
+        </p>
+      </div>
+      <button class="btn-modified" @click="addBook">添加图书</button>
+    </div>
+    <script typet="text/javascript">
+      var app = new Vue({
+        el: "#app",
+        data: {
+          // 图书列表
+          formInfo: {}
+        },
+        created() {},
+        methods: {
+          addBook() {
+            const data = {
+              title: this.formInfo.title,
+              description: this.formInfo.description,
+              createTime: this.formInfo.createTime
+            };
+            $.ajax({
+              url: "/api/bookAdd",
+              data,
+              type: "POST",
+              //   contentType: 'application/json',
+              dataType: "json",
+              success: function(res) {
+                alert(res.message);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+              },
+              error: function(xhr, status, error) {
+                // $("#div1").html(result);
+                console.log(error);
+              }
+            });
+          }
+        }
+      });
+    </script>
+    <!-- injectjs -->
+  </body>
+</html>
