@@ -3,6 +3,20 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 let jsArr = [];
 let cssArr = [];
+function createHtml(type, array) {
+  let result = '';
+  if (type === 'js') {
+    array.forEach(item => {
+      result += `<script src="${item}"></script>`;
+    });
+  }
+  if (type === 'css') {
+    array.forEach(item => {
+      result += `<link href="${item}" rel="stylesheet"></link>`;
+    });
+  }
+  return result;
+}
 class AfterHtmlPlugin {
   apply(compiler) {
     compiler.hooks.compilation.tap(pluginName, compilation => {
@@ -20,13 +34,10 @@ class AfterHtmlPlugin {
         (data, cb) => {
           let jsStr = "";
           let cssStr = "";
-          console.log(jsArr,cssArr,'----jsArr-----cssArr----');
-          jsArr.forEach(item => {
-            jsStr += `<script src="${item}"></script>`;
-          });
-          cssArr.forEach(item => {
-            cssStr += `<link href="${item}" rel="stylesheet"></link>`;
-          });
+          console.log(jsArr, cssArr, '----jsArr-----cssArr----');
+          jsStr = createHtml('js', jsArr);
+          cssStr = createHtml('css', cssArr);
+
           data.html = data.html.replace("<!-- injectjs -->", jsStr);
           data.html = data.html.replace("<!-- injectcss -->", cssStr);
           // Tell webpack to move on

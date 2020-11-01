@@ -53,6 +53,7 @@ const baseConfig = {
     },
     plugins: [
         new AfterHtmlPlugin(),
+        // 也可以在package.json中script里面加"preclient:dev": "rm -rf ./dist"
         new CleanWebpackPlugin(),
         ...htmlPlugin,
         new MiniCssExtractPlugin(),
