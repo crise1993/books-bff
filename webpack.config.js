@@ -36,8 +36,11 @@ const baseConfig = {
     mode,
     entry,
     output:{
+         /**
+         *   clean-webpack-plugin will remove files inside the directory below
+         */
         path: path.join(__dirname, './dist/client/assets'),
-        filename: '[name].[contenthash].js',
+        filename: '[name].[hash].js',
     },
     module: {
         rules: [
@@ -57,13 +60,6 @@ const baseConfig = {
         new CleanWebpackPlugin(),
         ...htmlPlugin,
         new MiniCssExtractPlugin(),
-        new CopyPlugin({
-            patterns: [
-                // to：path相对output里面的path
-                { from: path.join(__dirname, './src/client/components'), to: '../components' },
-                { from: path.join(__dirname, './src/client/views/layouts'), to: '../views/layouts' },
-            ],
-        }),
     ]
 };
 

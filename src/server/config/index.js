@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === "development") {
 }
 if (process.env.NODE_ENV === "production") {
   const prodConfig = {
-    port: "80",
+    port: "8001",
     // disable, set to false
     cache: 'memory',
   };
