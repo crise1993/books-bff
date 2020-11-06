@@ -15,9 +15,6 @@ import ErrorHandler from './middlewares/errorHandler';
 const app = new Koa();
 
 
-if(false){
-  console.log("-----app.js----")
-}
 // log4js日志库初始化
 log4js.configure({
   appenders: { globalError: { type: "file", filename: path.join(__dirname, "./logs/error.log") } },
@@ -48,5 +45,5 @@ app.use(bodyParser());
 initController(app);
 
 app.listen(config.port, () => {
-  console.log(`server33444 is running at http://localhost:${config.port}`);
+  console.log(`server33 is running at http://localhost:${config.port}`);
 });
