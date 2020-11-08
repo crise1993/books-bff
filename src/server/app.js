@@ -45,5 +45,5 @@ app.use(bodyParser());
 initController(app);
 
 app.listen(config.port, () => {
-  console.log(`server33 is running at http://localhost:${config.port}`);
+  console.log(`server332 is running at http://localhost:${config.port}`);
 });
